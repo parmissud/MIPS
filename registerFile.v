@@ -2,17 +2,15 @@ module regfile (
 	input  clk,
 	input  [ 4:0] RN1,
 	input  [ 4:0] RN2,
-    input [4:0] RN3,
+    input [4:0] WN,
 	output [31:0] RD1,
 	output [31:0] RD2,
-    input [31:0] WD,
-	input  RegDst,
+    input [31:0] Input,
     input RegWrite,
-    input MemToReg,
 );
 
-    reg[4:0] WN;
 	reg [31:0] regbank[63:0];
+    reg [31:0]WD;
     
 
 	always @(RN1 or regbank[RN1]) begin
@@ -32,14 +30,9 @@ module regfile (
 	end
 
 	always@ (posedge clk) begin
-		if(1'b1 == RegDst) begin
-			WN=regbank[RD3];
-		end
-        else begin
-            WN=regbank[RD2];
+		if(RegWrite==1'b1) begin
+            regbank[WN]=Input;
         end
-        if(RegWrite==1'b1) begin
-            
 	end
 
 endmodule
