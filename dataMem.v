@@ -1,11 +1,11 @@
 module data_memory  
  (  
       input clk,  
-      input [4:0] rs,
-      input [4:0] rt,  
+      input [31:0] Addr,
+      input [31:0] WriteData,  
       input MemWrite,  
       input MemRead,
-      output [31:0] readData  
+      output [31:0] ReadData  
  );  
       integer i;  
       reg [63:0] mem [31:0];    
@@ -15,7 +15,10 @@ module data_memory
       end  
       always @(posedge clk) begin  
            if (MemWrite)  
-                mem[rs] <= ;  
+                mem[Addr]  <= WriteData ;
+               ReadData <= 0
       end  
-      assign mem_read_data = (mem_read==1'b1) ? mem[mem_addr]: 16'd0;   
+          else (MemRead) begin
+               ReadData <= mem[Addr];
+               end
  endmodule 
